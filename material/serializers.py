@@ -25,7 +25,6 @@ class CourseSerializer(serializers.ModelSerializer):
 
 
 class LessonDetailSerializer(serializers.ModelSerializer):
-    fields = '__all__'
     lesson_count = serializers.SerializerMethodField(read_only=True)
     lesson = LessonSerializer(source='lesson_set', many=True, read_only=True)
 
@@ -34,7 +33,7 @@ class LessonDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lesson
-        fields = ('course', 'title', 'description', 'get_lesson_count')
+        fields = ('course', 'title', 'description', 'lesson_count', 'lesson')
 
 class SubscriptionSerializer(serializers.ModelSerializer):
     """ Сериализатор Подписки """

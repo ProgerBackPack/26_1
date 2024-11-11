@@ -3,7 +3,7 @@ from django.db import models
 
 from material.models import Course, Lesson
 # Create your models here.
-class Users(AbstractUser):
+class User(AbstractUser):
     username = None
 
     email = models.EmailField(unique=True, verbose_name="Почта")
@@ -46,13 +46,17 @@ class Payments(models.Model):
         ('transfer', 'перевод'),
     )
 
-    user = models.ForeignKey(Users, on_delete=models.CASCADE, verbose_name='Пользователь')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     date_payment = models.PositiveSmallIntegerField(verbose_name='Дата оплаты')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='курс', blank=True, null=True)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='урок', blank=True, null=True)
     payment_amount = models.PositiveBigIntegerField(verbose_name='Сумма оплаты')
     payment_method = models.CharField(max_length=80, choices=method_variants, default='transfer',
                                       verbose_name='способ оплаты')
+    session_id = models.CharField(max_length=255, verbose_name='Id сессии', blank=True,
+                                   null=True)
+    link_payment = models.URLField(max_length=400, verbose_name='Ссылка на оплату', blank=True,
+                                   null=True, help_text='Введите ссылку на оплату')
 
     def __str__(self):
         return f'Оплата для {self.user}'
