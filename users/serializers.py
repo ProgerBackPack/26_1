@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
-from users.models import User, Payments
+from users.models import Users, Payments
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = Users
         fields = '__all__'
 
 

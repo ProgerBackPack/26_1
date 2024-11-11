@@ -4,13 +4,13 @@ from django.urls import reverse
 from rest_framework import status
 
 from material.models import Course, Lesson, Subscription
-from users.models import User
+from users.models import Users
 
 class TestLessons(APITestCase):
     """ Тестирование уроков """
 
     def setUp(self) -> None:
-        self.user = User.objects.create(email="admin@sky.pro")
+        self.user = Users.objects.create(email="admin@sky.pro")
         self.client.force_authenticate(user=self.user)
         self.course = Course.objects.create(title="Test", description="Основы Test")
         self.lesson = Lesson.objects.create(
@@ -108,7 +108,7 @@ class TestLessons(APITestCase):
 
 class SubscriptionTestCase(APITestCase):
     def setUp(self):
-        self.user = User.objects.create(email='admin@sky.pro')
+        self.user = Users.objects.create(email='admin@sky.pro')
         self.course = Course.objects.create(title='Програмное обеспечение')
         self.client.force_authenticate(user=self.user)
         self.url = reverse('material:subscription_create')

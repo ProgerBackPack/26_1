@@ -3,7 +3,7 @@ from django.db import models
 
 from material.models import Course, Lesson
 # Create your models here.
-class User(AbstractUser):
+class Users(AbstractUser):
     username = None
 
     email = models.EmailField(unique=True, verbose_name="Почта")
@@ -46,7 +46,7 @@ class Payments(models.Model):
         ('transfer', 'перевод'),
     )
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
+    user = models.ForeignKey(Users, on_delete=models.CASCADE, verbose_name='Пользователь')
     date_payment = models.PositiveSmallIntegerField(verbose_name='Дата оплаты')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='курс', blank=True, null=True)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='урок', blank=True, null=True)

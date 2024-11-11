@@ -9,3 +9,4 @@ black
 django-filter
 djangorestframework-simplejwt
 ipython
+drf-yasg
