@@ -27,7 +27,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_filters",
     "rest_framework_simplejwt",
-    'drf_yasg',
+    "drf_yasg",
+    "django_celery_beat",
 
     "users",
     "material",
@@ -129,6 +130,21 @@ SIMPLE_JWT = {
 
 STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
 
+
+# Часовой пояс для работы Celery
+CELERY_TIMEZONE = TIME_ZONE
+# Флаг отслеживания выполнения задач
+CELERY_TASK_TRACK_STARTED = os.getenv('CELERY_TASK_TRACK_STARTED')
+# Максимальное время на выполнение задачи
+CELERY_TASK_TIME_LIMIT = os.getenv('CELERY_TASK_TIME_LIMIT')
+
+# URL-адрес брокера сообщений
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
+# URL-адрес брокера результатов, также Redis
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
+
+
+
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
@@ -138,3 +154,12 @@ EMAIL_USE_SSL = os.getenv('EMAIL_HOST_SSL', False) == 'True'
 
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+CELERY_BEAT_SCHEDULE = {
+    'check_user_activity': {
+        'task': 'users.tasks.check_user_activity',  # Путь к задаче
+        'schedule': timedelta(days=30),
+    }
+}

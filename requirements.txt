@@ -11,3 +11,6 @@ djangorestframework-simplejwt
 ipython
 drf-yasg
 stripe
+celery
+redis
+celery-beat
